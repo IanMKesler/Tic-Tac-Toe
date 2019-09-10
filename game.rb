@@ -9,25 +9,25 @@ class Game
     @p2 = Player.new("O")
 
     @p1.turn = true
-    @sym = "X"
+    @symbol = "X"
   end
 
   def play
     turn = 1
-    check = false
+    game_end = false
     win = false
     stalemate = false
-    until check
+    until game_end
       round
       won = false
-      won = win?(@sym)
+      won = win?(@symbol)
       stalemated = (turn == 9 && !won)
-      puts "#{@sym} wins!" if won
+      puts "#{@symbol} wins!" if won
       puts "Stalemate" if stalemated
-      check = won || stalemated
+      game_end = won || stalemated
       turn += 1
-      flipTurns
-      flipSym
+      flip_turns
+      flip_symbol
     end
     @board.show
   end
@@ -35,20 +35,20 @@ class Game
   private
 
   def round
-    position = getMove(@sym)
+    position = get_move(@symbol)
     check = check?(position)
     until check
       puts "Please choose an open space"
-      position = getMove(@sym)
+      position = get_move(@symbol)
       check = check?(position)
     end
-    @board.draw(position[0], position[1], @sym)
+    @board.draw(position[0], position[1], @symbol)
   end
 
-  def getMove(sym)
+  def get_move(symbol)
     regexp = /[1-3],[1-3]/
     @board.show
-    puts "#{@sym}: Choose row and column"
+    puts "#{@symbol}: Choose row and column"
     error = true
     while error
       position = gets.strip
@@ -67,27 +67,27 @@ class Game
     @board.show(position[0], position[1]) == "0" ? true : false
   end
 
-  def flipTurns
+  def flip_turns
     @p1.turn = !(@p1.turn)
     @p2.turn = !(@p2.turn)
   end
 
-  def flipSym
-    @sym = @p1.turn ? @p1.sym : @p2.sym
+  def flip_symbol
+    @symbol = @p1.turn ? @p1.symbol : @p2.symbol
   end
 
-  def win?(sym)
+  def win?(symbol)
     case
-    when @board.show(0, 1) == @sym
-      return true if (@board.show(0, 0) == @sym && @board.show(0, 2) == @sym) || (@board.show(1, 1) == @sym && @board.show(2, 1) == @sym)
-    when @board.show(1, 0) == @sym
-      return true if (@board.show(0, 0) == @sym && @board.show(2, 0) == @sym) || (@board.show(1, 1) == @sym && @board.show(1, 2) == @sym)
-    when @board.show(1, 2) == @sym
-      return true if (@board.show(0, 2) == @sym && @board.show(2, 2) == @sym)
-    when @board.show(2, 1) == @sym
-      return true if (@board.show(2, 0) == @sym && @board.show(2, 2) == @sym)
-    when @board.show(1, 1) == @sym
-      return true if (@board.show(0, 0) == @sym && @board.show(2, 2) == @sym) || (@board.show(0, 2) == @sym && @board.show(2, 0) == @sym)
+    when @board.show(0, 1) == @symbol
+      return true if (@board.show(0, 0) == @symbol && @board.show(0, 2) == @symbol) || (@board.show(1, 1) == @symbol && @board.show(2, 1) == @symbol)
+    when @board.show(1, 0) == @symbol
+      return true if (@board.show(0, 0) == @symbol && @board.show(2, 0) == @symbol) || (@board.show(1, 1) == @symbol && @board.show(1, 2) == @symbol)
+    when @board.show(1, 2) == @symbol
+      return true if (@board.show(0, 2) == @symbol && @board.show(2, 2) == @symbol)
+    when @board.show(2, 1) == @symbol
+      return true if (@board.show(2, 0) == @symbol && @board.show(2, 2) == @symbol)
+    when @board.show(1, 1) == @symbol
+      return true if (@board.show(0, 0) == @symbol && @board.show(2, 2) == @symbol) || (@board.show(0, 2) == @symbol && @board.show(2, 0) == @symbol)
     else
       return false
     end

@@ -1,9 +1,9 @@
 class Player
   attr_accessor :turn, :win
-  attr_reader :sym 
+  attr_reader :symbol 
 
-  def initialize(sym)
-    @sym = sym
+  def initialize(symbol)
+    @symbol = symbol
     @turn = false
     @win = false
   end
