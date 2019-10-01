@@ -2,6 +2,8 @@ class Game
   require_relative "player"
   require_relative "board"
 
+  attr_accessor :board
+
   def initialize
     puts "Initializing Game"
     @board = Board.new
@@ -78,16 +80,16 @@ class Game
 
   def win?(symbol)
     case
-    when @board.show(0, 1) == @symbol
-      return true if (@board.show(0, 0) == @symbol && @board.show(0, 2) == @symbol) || (@board.show(1, 1) == @symbol && @board.show(2, 1) == @symbol)
-    when @board.show(1, 0) == @symbol
-      return true if (@board.show(0, 0) == @symbol && @board.show(2, 0) == @symbol) || (@board.show(1, 1) == @symbol && @board.show(1, 2) == @symbol)
     when @board.show(1, 2) == @symbol
-      return true if (@board.show(0, 2) == @symbol && @board.show(2, 2) == @symbol)
+      return true if (@board.show(1, 1) == @symbol && @board.show(1, 3) == @symbol) || (@board.show(2, 2) == @symbol && @board.show(3, 2) == @symbol)
     when @board.show(2, 1) == @symbol
-      return true if (@board.show(2, 0) == @symbol && @board.show(2, 2) == @symbol)
-    when @board.show(1, 1) == @symbol
-      return true if (@board.show(0, 0) == @symbol && @board.show(2, 2) == @symbol) || (@board.show(0, 2) == @symbol && @board.show(2, 0) == @symbol)
+      return true if (@board.show(1, 1) == @symbol && @board.show(3, 1) == @symbol) || (@board.show(2, 2) == @symbol && @board.show(2, 3) == @symbol)
+    when @board.show(2, 3) == @symbol
+      return true if (@board.show(1, 3) == @symbol && @board.show(3, 3) == @symbol)
+    when @board.show(3, 2) == @symbol
+      return true if (@board.show(3, 1) == @symbol && @board.show(3, 3) == @symbol) 
+    when @board.show(2, 2) == @symbol
+      return true if (@board.show(1, 1) == @symbol && @board.show(3, 3) == @symbol) || (@board.show(1, 3) == @symbol && @board.show(3, 1) == @symbol)
     else
       return false
     end
